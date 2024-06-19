@@ -1,0 +1,16 @@
+$colorPrimary: #1890FF; // 全局主色
+$colorSuccess: #52c41a; // 成功色
+$colorWarning: #faad14; // 警告色
+$colorError: #ff4d4f; // 错误色
+$colorLink: #1890ff; // 链接色
+$borderRadius: 2px; // 组件/浮层圆角
+
+// 导出 antd token 变量， 也可在js中导入使用
+:export{
+    colorPrimary: $colorPrimary;
+    colorSuccess: $colorSuccess;
+    colorWarning: $colorWarning;
+    colorError: $colorError;
+    colorLink: $colorLink;
+    borderRadius: $borderRadius;
+}
