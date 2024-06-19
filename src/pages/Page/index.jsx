@@ -3,8 +3,7 @@ import { observer } from 'mobx-react-lite';
 import testStore from '@/store/test';
 
 const Page = () => {
-    console.log(import.meta.env.MODE);
-    console.log(window.BASE_URL);
+    console.log(import.meta.env.MODE, window.BASE_URL);
     const [num, setNum] = useState(0);
     return (
         <div>
