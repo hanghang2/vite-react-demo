@@ -10,6 +10,7 @@ const Login = () => {
             <div className={`${styles.title} flexCC m-20`}>
                 login
             </div>
+            <div className={styles.span}>span</div>
         </div>
     );
 };

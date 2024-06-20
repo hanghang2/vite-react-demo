@@ -9,6 +9,7 @@ const Main = () => {
                 <button onClick={() => navigate('/Login')}>login</button>
                 <button onClick={() => navigate('/Demo')}>demo</button>
                 <button onClick={() => navigate('/Page')}>page</button>
+                <button onClick={() => navigate('/Child')}>child</button>
             </div>
             <div>
                 <Outlet/>

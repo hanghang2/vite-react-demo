@@ -18,8 +18,8 @@
 
 # 插件功能
 
-> mobx mobx-react-lite 状态管理 
-> ahooks hook库 
-> antd @ant-design/icons 组件库 图标库
-> axios http请求插件
-> react-router-dom 路由插件
+> mobx mobx-react-lite 状态管理  
+> ahooks hook库  
+> antd @ant-design/icons 组件库 图标库  
+> axios http请求插件  
+> react-router-dom 路由插件  

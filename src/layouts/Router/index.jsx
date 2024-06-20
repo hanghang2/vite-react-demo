@@ -1,9 +1,10 @@
 import { Route, Routes, HashRouter } from 'react-router-dom';
-import Main from '../Main';
+import NotDefined from '@/pages/NotDefined';
 import Login from '@/pages/Login';
+import Main from '../Main';
 import Page from '@/pages/Page';
 import Demo from '@/pages/Demo';
-import NotDefined from '@/pages/NotDefined';
+import Child from '@/pages/Child';
 
 const Router = () => {
     return (
@@ -13,6 +14,7 @@ const Router = () => {
                 <Route element={<Main/>} path="/">
                     <Route element={<Page/>} path='Page'/>
                     <Route element={<Demo/>} path='Demo'/>
+                    <Route element={<Child/>} path='Child'/>
                     <Route element={<NotDefined/>} path="*"/>
                 </Route>
             </Routes>
