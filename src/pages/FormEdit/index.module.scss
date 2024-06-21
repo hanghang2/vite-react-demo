@@ -41,6 +41,33 @@
         &.isDrag .formItem,&.isDrag .dragTag{
             border-color:  #ccc;
         }
+        .formItem {
+            position: relative;
+            &.active{
+                border: 1px dashed $colorPrimary;
+            }
+            .iconBox{
+                display: none;
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: #edf4ff;
+                color: #666;
+                transform: translateX(100%);
+                z-index: 2;
+                .icon{
+                    padding: 5px;
+                    font-size: 18px;
+                    &:hover{
+                        cursor: pointer;
+                        color: $colorPrimary;
+                    }
+                }
+            }
+            &:hover .iconBox{
+                display: block;
+            }
+        }
     }
     .headTitle{
         border-style: dashed;
@@ -57,4 +84,5 @@
     width: 250px;
     background: #fff;
     border-left: 1px solid #eee;
+    padding: 20px;
 }

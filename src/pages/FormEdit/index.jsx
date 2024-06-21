@@ -7,14 +7,15 @@ import styles from './index.module.scss';
 
 const FormEdit = () => {
     const $event = useEventEmitter();
+    const $eventFI = useEventEmitter(); // 表单项属性设置通信
 
     return (
         <div className='h-full d-flex flex-column'>
             <Header/>
             <div className={`flex-1 d-flex  ${styles.main}`}>
                 <LeftFormItemList $event={$event}/>
-                <MainFormContent $event={$event}/>
-                <RightItemAttrs />
+                <MainFormContent $event={$event} $eventFI={$eventFI}/>
+                <RightItemAttrs $eventFI={$eventFI}/>
             </div>
         </div>
     );

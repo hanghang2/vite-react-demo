@@ -35,6 +35,10 @@ const useFormTagDrag = ($event) => {
         setFormItems(formItems.map(item => ({ ...item, isDrag: false })));
         setDragData(null);
     };
+    // 删除
+    const onDelteItem = (i) => {
+        setFormItems(formItems.filter((_, index) => index !== i));
+    };
     // 事件订阅
     $event.useSubscription(([type, data]) => {
         data = data ? JSON.parse(JSON.stringify(data)) : {};
@@ -54,6 +58,7 @@ const useFormTagDrag = ($event) => {
         onDragOver, // 拖拽到区域
         onFormItemDrag, // 拖拽到form item区域
         onDrop, // 拖拽结束
+        onDelteItem, // 删除
         boxRef,
         formItems,
         isDrag: dragData ? true : false,
