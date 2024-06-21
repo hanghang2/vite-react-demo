@@ -1,6 +1,6 @@
 import { useRef, useState, Fragment } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Button, Input } from 'antd';
+import { Button, Input, Divider } from 'antd';
 import { DragOutlined } from '@ant-design/icons';
 import styles from '../../index.module.scss';
 import useFormTagDrag from './useFormTagDrag';
@@ -42,6 +42,22 @@ const TagDrag = ({ data, onDragover }) => {
         </div>
     );
 };
+
+const { TextArea } = Input;
+const FormHeader = () => {
+    return (
+        <div className='w-full p-x-20'>
+            <Input
+                maxLength={20}
+                placeholder="请输入表单名称"
+                rootClassName={styles.headTitle}
+                showCount
+            />
+            <TextArea allowClear placeholder="这里可以输入表单描述。" rootClassName={styles.headRemark}/>
+            <Divider>表单内容</Divider>
+        </div>
+    );
+};
 const MainFormContent = ({ $event }) => {
     const {
         onDragOver, // 拖拽到区域
@@ -63,6 +79,7 @@ const MainFormContent = ({ $event }) => {
                     ref={boxRef}
                 >
                     <div className={`${styles.box} ${isDrag ? styles.isDrag : ''}`}>
+                        <FormHeader></FormHeader>
                         {
                             formItems.map((item, i) =>
                                 item.isDrag ?

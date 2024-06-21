@@ -42,6 +42,16 @@
             border-color:  #ccc;
         }
     }
+    .headTitle{
+        border-style: dashed;
+        :global(.ant-input){
+            text-align: center;
+        }
+    }
+    .headRemark{
+        border-style: dashed;
+        margin-top: 16px;
+    }
 }
 .rightItemAttrs{
     width: 250px;
