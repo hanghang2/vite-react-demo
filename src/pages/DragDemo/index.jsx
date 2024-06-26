@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-const FormView = () => {
+const DragDemo = () => {
     const [list, setList] = useState([1, 2, 3, 4, 5, 6]); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10
     const enterRef = useRef(null);
     const onDragStart = () => {
@@ -55,4 +55,4 @@ const FormView = () => {
     );
 };
 
-export default FormView;
+export default DragDemo;

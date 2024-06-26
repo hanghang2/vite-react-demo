@@ -7,6 +7,7 @@ import Demo from '@/pages/Demo';
 import Child from '@/pages/Child';
 import FormEdit from '@/pages/FormEdit'; // 表单设计器
 import FormView from '@/pages/FormView'; // 表单查看
+import DragDemo from '@/pages/DragDemo'; // 拖拽示例
 
 const Router = () => {
     return (
@@ -15,6 +16,7 @@ const Router = () => {
                 <Route element={<Login/>} path='/Login'/>
                 <Route element={<FormEdit/>} path='/FormEdit'/>
                 <Route element={<FormView/>} path='/FormView'/>
+                <Route element={<DragDemo/>} path='/DragDemo'/>
                 <Route element={<Main/>} path="/">
                     <Route element={<Page/>} path='Page'/>
                     <Route element={<Demo/>} path='Demo'/>
