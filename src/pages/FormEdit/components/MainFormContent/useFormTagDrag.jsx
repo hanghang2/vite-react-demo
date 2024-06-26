@@ -1,67 +1,69 @@
 import { useRef, useState } from 'react';
 
-let eleId = 0;
 // 表单元素拖拽 hook
 const useFormTagDrag = ($event) => {
-    const boxRef = useRef(null); // 拖拽区域
     const [formItems, setFormItems] = useState([]); // 表单项
-    const [dragData, setDragData] = useState(null); // 拖拽数据
-    // 拖拽到区域
-    const onDragOver = (e) => {
-        e.preventDefault();
-        if (boxRef.current === e.target) { // 在区域上
-            const newList = [...formItems];
-            const curIndex = newList.indexOf(dragData);
-            if (curIndex === -1) {
-                setFormItems([...newList, dragData]); // 插入
-            } else {
-                const curItem = newList.splice(curIndex, 1); // 删除
-                setFormItems([...newList, curItem[0]]); // 插入到最后
-            }
+    const [isDrag, setIsDrag] = useState(false); // 是否拖拽在区域内
+
+    const dragData = useRef(null); // 拖拽数据
+    const enterRef = useRef(null); // 拖拽进入区域的元素
+    const onDragEnter = e => {
+        if (!enterRef.current) { // 拖动进入区域
+            setFormItems([...formItems, dragData.current]);
+            setIsDrag(true);
+        }
+        enterRef.current = e.target;
+    };
+    const onDragLeave = e => {
+        if (enterRef.current === e.target) { // 拖动离开区域
+            enterRef.current = null;
+            setFormItems(formItems.filter(item => !item.isDrag));
+            setIsDrag(false);
         }
     };
-    // 拖拽到form item区域
-    const onFormItemDrag = (i) => {
+
+    const onItemEnter = (i) => { // 拖动到item
+        const curIndex = formItems.indexOf(dragData.current);
+        if (curIndex === i || curIndex === -1) {
+            return;
+        }
+        // 拖动到item
         const newList = [...formItems];
-        formItems.indexOf(dragData) === -1 && newList.push(dragData); // 没有的话，插入
-        const curIndex = formItems.indexOf(dragData);
-        if (i === curIndex) { return } // 位置不变
-        const curItem = newList.splice(curIndex, 1); // 删除
-        newList.splice(i, 0, curItem[0]); // 插入
+        newList.splice(i, 0, newList.splice(curIndex, 1)[0]);
         setFormItems(newList);
     };
-    // 拖拽结束
-    const onDrop = () => {
+    const onDrop = () => { // 放置到区域
+        enterRef.current = null;
         setFormItems(formItems.map(item => ({ ...item, isDrag: false })));
-        setDragData(null);
+        dragData.current = null;
     };
-    // 删除
-    const onDelteItem = (i) => {
-        setFormItems(formItems.filter((_, index) => index !== i));
-    };
+
     // 事件订阅
     $event.useSubscription(([type, data]) => {
         data = data ? JSON.parse(JSON.stringify(data)) : {};
         if (type === 'onDragStart') { // 拖拽开始 记录
-            data.id = eleId++;
-            data.isDrag = true;
-            setDragData(data);
-        } else if (type === 'onDragEnd') { // 拖拽结束 清除
-            setDragData(null);
-            setFormItems(formItems.filter(item => !item.isDrag));
+            dragData.current = {
+                ...data,
+                isDrag: true,
+                id: new Date().getTime(),
+            };
         } else if (type === 'onTagClick') { // 点击tag 新增
-            data.id = eleId++;
-            setFormItems([...formItems, data]);
+            setFormItems([...formItems, { ...data, id: new Date().getTime() }]);
         }
     });
+    // 删除
+    const onDelItem = (i) => {
+        setFormItems(formItems.filter((_, index) => index !== i));
+    };
+
     return {
-        onDragOver, // 拖拽到区域
-        onFormItemDrag, // 拖拽到form item区域
-        onDrop, // 拖拽结束
-        onDelteItem, // 删除
-        boxRef,
-        formItems,
-        isDrag: dragData ? true : false,
+        onDragEnter, // 拖拽进入
+        onDragLeave, // 拖拽离开
+        onItemEnter, // 拖动到item
+        onDrop, // 放置到区域
+        onDelItem, // 删除
+        formItems, // 表单项
+        isDrag, // 是否拖拽在区域内
     };
 };
 

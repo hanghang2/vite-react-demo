@@ -20,7 +20,6 @@ const LeftFormItemList = ({ $event }) => {
                                 draggable="true"
                                 key={item.value}
                                 onClick={() => $event.emit(['onTagClick', item])}
-                                onDragEnd={() => $event.emit(['onDragEnd'])}
                                 onDragStart={() => $event.emit(['onDragStart', item])}
                                 type="dashed"
                             >
