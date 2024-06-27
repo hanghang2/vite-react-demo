@@ -36,6 +36,7 @@ const useFormTagDrag = ($event) => {
         enterRef.current = null;
         setFormItems(formItems.map(item => ({ ...item, isDrag: false })));
         dragData.current = null;
+        setIsDrag(false);
     };
 
     // 事件订阅
