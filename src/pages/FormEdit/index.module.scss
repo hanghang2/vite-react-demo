@@ -67,6 +67,17 @@
             &:hover .iconBox{
                 display: block;
             }
+            .labelRequired{
+                position: relative;
+                &::before{
+                    content: '*';
+                    color: $colorError;
+                    margin-right: 5px;
+                    position: absolute;
+                    left: -10px;
+                    top: 2px;
+                }
+            }
         }
     }
     .headTitle{

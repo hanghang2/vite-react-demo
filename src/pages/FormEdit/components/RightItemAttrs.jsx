@@ -2,22 +2,21 @@ import { useState } from 'react';
 import { Divider, Segmented } from 'antd';
 import styles from '../index.module.scss';
 import { useUpdateEffect } from 'ahooks';
+import AttrSetting from './AttrSetting';
 
-const Box = ({ children, data }) => data.label ? children : null;
+const NullBox = ({ children, isNull }) => isNull ? children : null;
 const Item = ({ children, label }) => (
-    <div className='d-flex align-items-center'>
-        <div className='u-3of10'>{label}：</div>
-        <div className='u-7of10'>{children}</div>
+    <div className='d-flex align-items-center p-y-8'>
+        <div className='w-80'>{label}：</div>
+        <div className='flex-1'>{children}</div>
     </div>
 );
-const widths = ['100%', '50%', '33.3%'];
 const RightItemAttrs = ({ $eventFI }) => {
     const [attr, setAttr] = useState({}); // 表单项属性
     const [data, setData] = useState({}); // 表单项数据
     $eventFI.useSubscription(([type, data, attr]) => {
         if (type === 'onEditAttr') {
-            data = JSON.parse(JSON.stringify(data));
-            setData(data);
+            setData(JSON.parse(JSON.stringify(data)));
             setAttr(JSON.parse(JSON.stringify(attr)));
         }
     });
@@ -27,19 +26,53 @@ const RightItemAttrs = ({ $eventFI }) => {
     return (
         <div className={styles.rightItemAttrs}>
             <div className='w-full color-999 m-b-20'>编辑表单项</div>
-            <Box data={data}>
+            <NullBox isNull={data.label}>
                 <div className='f-w-b'>{data.label}-{data.id}</div>
                 <Divider>公共属性</Divider>
-                <div>
-                    <Item label='宽度'>
-                        <Segmented
-                            onChange={(value) => setAttr({ ...attr, width: value })}
-                            options={widths}
-                            value={attr.width}
-                        />
-                    </Item>
-                </div>
-            </Box>
+                {
+                    ['boxStyle', 'labelStyle'].map(type => (
+                        attr[type]?.map((item, i) => (
+                            <Item key={item.attr} label={item.label}>
+                                <AttrSetting
+                                    data={item}
+                                    onChange={val =>
+                                        setAttr({
+                                            ...attr,
+                                            [type]: attr[type].map((cur, j) => {
+                                                if (j === i) {
+                                                    cur.value = val;
+                                                }
+                                                return cur;
+                                            }),
+                                        })
+                                    }
+                                    value={item.value}
+                                />
+                            </Item>
+                        ))
+                    ))
+                }
+                <Divider>表单项属性</Divider>
+                {
+                    ['labelText', 'required'].map(type => (
+                        <Item key={type} label={attr[type]?.label}>
+                            <AttrSetting
+                                data={attr[type]}
+                                onChange={val =>
+                                    setAttr({
+                                        ...attr,
+                                        [type]: {
+                                            ...attr[type],
+                                            value: val,
+                                        },
+                                    })
+                                }
+                                value={attr[type]?.value}
+                            />
+                        </Item>
+                    ))
+                }
+            </NullBox>
         </div>
     );
 };

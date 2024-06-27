@@ -16,35 +16,76 @@ export const formTagData = [
     },
 ];
 
-const Item = ({ label, children }) => (
-    <div className='d-flex'>
-        <div className='u-3of10 l-h-32'>{label}：</div>
-        <div className='u-7of10'>
-            {children}
-        </div>
-    </div>
-);
+// 公共属性
+export const commonAttrs = {
+    boxStyle: [ // 盒子样式
+        {
+            attr: 'width',
+            label: '宽度(%)',
+            value: 50,
+            attrType: 'slider',
+            unit: '%',
+        },
+        {
+            attr: 'paddingLeft,paddingRight',
+            label: '左右间距',
+            value: 20,
+            attrType: 'input-number',
+        },
+        {
+            attr: 'paddingTop,paddingBottom',
+            label: '上下间距',
+            value: 10,
+            attrType: 'input-number',
+        },
+    ],
+    labelStyle: [ // 标签样式
+        {
+            attr: 'width',
+            label: '标签宽度',
+            value: 120,
+            attrType: 'input-number',
+        },
+        {
+            attr: 'textAlign',
+            label: '对齐方式',
+            value: 'left',
+            attrType: 'radio',
+            radioOptions: [
+                { label: '左对齐', value: 'left' },
+                { label: '居中', value: 'center' },
+                { label: '右对齐', value: 'right' },
+            ],
+        },
+    ],
+    labelText: { // 标签文本
+        label: '标签文字',
+        value: '',
+        attrType: 'input',
+    },
+    required: { // 是否必填
+        label: '是否必填',
+        value: false,
+        attrType: 'switch',
+    },
+};
 
 // 表单项
 export const formItemData = {
     input: {
         component: () => (
-            <Item label="单行文本">
-                <Input placeholder="请输入" />
-            </Item>
+            <Input placeholder="请输入" />
         ),
     },
     radio: {
         component: () => {
             return (
-                <Item label="单选">
-                    <Radio.Group className='m-t-5'>
-                        <Radio value={1}>A</Radio>
-                        <Radio value={2}>B</Radio>
-                        <Radio value={3}>C</Radio>
-                        <Radio value={4}>D</Radio>
-                    </Radio.Group>
-                </Item>
+                <Radio.Group className='m-t-5'>
+                    <Radio value={1}>A</Radio>
+                    <Radio value={2}>B</Radio>
+                    <Radio value={3}>C</Radio>
+                    <Radio value={4}>D</Radio>
+                </Radio.Group>
             );
         },
     },
@@ -52,9 +93,7 @@ export const formItemData = {
         component: () => {
             const plainOptions = ['Apple', 'Pear', 'Orange'];
             return (
-                <Item label="多选">
-                    <Checkbox.Group className='m-t-5' defaultValue={['Apple']} options={plainOptions}/>
-                </Item>
+                <Checkbox.Group className='m-t-5' defaultValue={['Apple']} options={plainOptions}/>
             );
         },
     },
