@@ -42,6 +42,12 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
         boxStyle, // 表单项盒子样式
         labelAttr, // 表单项label属性
     } = useGetItemAttr(attr);
+
+    /** 表单保存操作
+     * 暴露给父组件提供一个save方法(forwardRef)，用于保存表单项属性，会校验表单项属性是否填写完整，如果不完整则提示用户
+     * 同时把 attr数据存到 data.attr（表单项属性）中，表单组件回显时会用到
+     * 同时 该组件表单预览也可以复用
+     */
     return (
         <div
             className={`${styles.formItem} ${editId === data.id ? styles.active : ''}`}

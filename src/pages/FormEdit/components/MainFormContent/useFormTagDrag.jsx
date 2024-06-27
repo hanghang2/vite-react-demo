@@ -8,6 +8,7 @@ const useFormTagDrag = ($event) => {
     const dragData = useRef(null); // 拖拽数据
     const enterRef = useRef(null); // 拖拽进入区域的元素
     const onDragEnter = e => {
+        if (!dragData.current) { return }
         if (!enterRef.current) { // 拖动进入区域
             setFormItems([...formItems, dragData.current]);
             setIsDrag(true);
@@ -23,6 +24,7 @@ const useFormTagDrag = ($event) => {
     };
 
     const onItemEnter = (i) => { // 拖动到item
+        if (!dragData.current) { return }
         const curIndex = formItems.indexOf(dragData.current);
         if (curIndex === i || curIndex === -1) {
             return;
