@@ -32,7 +32,7 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
         });
     };
     commonAttrs.labelText.value = data.label; // 设置默认值
-    const [attr, setAttr] = useState({ ...commonAttrs }); // 表单项属性
+    const [attr, setAttr] = useState({ ...commonAttrs, curAttrs: data.attr || [] }); // 表单项属性
     $eventFI.useSubscription(([type, _data, attr]) => {
         if (type === 'onSaveAttr' && _data.id === data.id) {
             setAttr(JSON.parse(JSON.stringify(attr)));
@@ -49,7 +49,7 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
             style={boxStyle}
         >
             <FormItemBox {...labelAttr}>
-                <FormItem />
+                <FormItem attr={attr}/>
             </FormItemBox>
             <div className={styles.iconBox}>
                 <DeleteOutlined className={styles.icon} onClick={onDel}/>
