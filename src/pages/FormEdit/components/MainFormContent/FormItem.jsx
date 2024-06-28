@@ -1,4 +1,4 @@
-import { commonAttrs, formItemData } from '@/utils/form-item-data.jsx';
+import { formDataCommonAttrs, formItemComponents } from '@/utils/form-item-data';
 import { Fragment, useState, forwardRef, useImperativeHandle } from 'react';
 import styles from '@/pages/FormEdit/index.module.scss';
 import { DeleteOutlined, FormOutlined } from '@ant-design/icons';
@@ -20,7 +20,7 @@ const FormItemBox = ({ label, children, labelStyle, required }) => (
  * @param $eventFI 表单项属性设置 事件通信
  */
 const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, editId, index, viewAttr, onChange, value }, ref) => {
-    const FormItem = formItemData[data.value]?.component || Fragment;
+    const FormItem = formItemComponents[data.value]?.component || Fragment;
     const onDel = () => { // 删除
         modal.confirm({
             title: '提示',
@@ -32,7 +32,7 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
         });
     };
     const [attr, setAttr] = useState(() => {
-        const common = JSON.parse(JSON.stringify(commonAttrs));
+        const common = JSON.parse(JSON.stringify(formDataCommonAttrs));
         common.labelText.value = data.label; // 设置默认值
         return viewAttr || { ...common, curAttrs: data.attr || [] };
     }); // 表单项属性

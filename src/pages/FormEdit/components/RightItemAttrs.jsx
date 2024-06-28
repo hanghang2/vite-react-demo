@@ -77,7 +77,7 @@ const RightItemAttrs = ({ $eventFI }) => {
                     <Divider><span className='font-bold'>特有属性</span></Divider>
                     {
                         attr.curAttrs?.map((item, i) => (
-                            <Item key={item.attrType} label={item.label}>
+                            <Item key={i} label={item.label}>
                                 <AttrSetting
                                     data={item}
                                     onChange={val =>

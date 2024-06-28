@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { Button } from 'antd';
 import { DragOutlined } from '@ant-design/icons';
 import styles from '../index.module.scss';
-import { formTagData } from '@/utils/form-item-data.jsx';
+import { formItemType } from '@/utils/form-item-data';
 
 const LeftFormItemList = ({ $event }) => {
     // onClick 点击tag 新增
@@ -14,7 +14,7 @@ const LeftFormItemList = ({ $event }) => {
                 <div className='d-flex flex-wrap m-y-20'>
                     <div className='w-full m-10 color-999'>可拖拽或点击</div>
                     {
-                        formTagData.map(item => (
+                        formItemType.map(item => (
                             <Button
                                 className={styles.tag}
                                 draggable="true"
