@@ -24,7 +24,6 @@ const useFormTagDrag = ($event) => {
     };
 
     const onItemEnter = (i) => { // 拖动到item
-        if (!dragData.current) { return }
         const curIndex = formItems.indexOf(dragData.current);
         if (curIndex === i || curIndex === -1) {
             return;
@@ -66,6 +65,7 @@ const useFormTagDrag = ($event) => {
         onDrop, // 放置到区域
         onDelItem, // 删除
         formItems, // 表单项
+        setFormItems, // 设置表单项
         isDrag, // 是否拖拽在区域内
     };
 };

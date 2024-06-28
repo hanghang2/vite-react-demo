@@ -1,5 +1,5 @@
 import { commonAttrs, formItemData } from '@/utils/form-item-data.jsx';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, forwardRef, useImperativeHandle } from 'react';
 import styles from '@/pages/FormEdit/index.module.scss';
 import { DeleteOutlined, FormOutlined } from '@ant-design/icons';
 import useGetItemAttr from './useGetItemAttr.jsx';
@@ -19,7 +19,7 @@ const FormItemBox = ({ label, children, labelStyle, required }) => (
  * @param data 表单项数据
  * @param $eventFI 表单项属性设置 事件通信
  */
-const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, editId }) => {
+const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, editId, index, viewAttr, onChange, value }, ref) => {
     const FormItem = formItemData[data.value]?.component || Fragment;
     const onDel = () => { // 删除
         modal.confirm({
@@ -31,9 +31,12 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
             onOk: onDelte,
         });
     };
-    commonAttrs.labelText.value = data.label; // 设置默认值
-    const [attr, setAttr] = useState({ ...commonAttrs, curAttrs: data.attr || [] }); // 表单项属性
-    $eventFI.useSubscription(([type, _data, attr]) => {
+    const [attr, setAttr] = useState(() => {
+        const common = JSON.parse(JSON.stringify(commonAttrs));
+        common.labelText.value = data.label; // 设置默认值
+        return viewAttr || { ...common, curAttrs: data.attr || [] };
+    }); // 表单项属性
+    $eventFI?.useSubscription(([type, _data, attr]) => {
         if (type === 'onSaveAttr' && _data.id === data.id) {
             setAttr(JSON.parse(JSON.stringify(attr)));
         }
@@ -48,16 +51,23 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
      * 同时把 attr数据存到 data.attr（表单项属性）中，表单组件回显时会用到
      * 同时 该组件表单预览也可以复用
      */
+    const getData = () => new Promise((resolve, reject) => {
+        if (!attr.name.value) {
+            reject(`请填写${index}-${data.label}字段名`);
+        }
+        resolve({ data, attr });
+    });
+    useImperativeHandle(ref, () => ({ getData })); // 暴露给父组件的方法
     return (
         <div
-            className={`${styles.formItem} ${editId === data.id ? styles.active : ''}`}
+            className={`${styles.formItem} ${editId === data.id ? styles.active : ''} form-item`}
             onDragEnter={onDragEnter}
             style={boxStyle}
         >
             <FormItemBox {...labelAttr}>
-                <FormItem attr={attr}/>
+                <FormItem attr={attr} onChange={onChange} value={value}/>
             </FormItemBox>
-            <div className={styles.iconBox}>
+            <div className={`${styles.iconBox} form-item-edit-icon`}>
                 <DeleteOutlined className={styles.icon} onClick={onDel}/>
                 <FormOutlined
                     className={styles.icon}
@@ -71,4 +81,4 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
     );
 };
 
-export default FormItem;
+export default forwardRef(FormItem);

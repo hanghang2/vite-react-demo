@@ -1,0 +1,14 @@
+.form{
+    :global(.form-item-edit-icon){
+        display: none !important;
+    }
+    :global(.form-item){
+        border-color:  #fff !important;
+    }
+
+    width: 780px;
+    margin: 0 auto;
+    min-height: 800px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+}

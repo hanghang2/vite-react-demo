@@ -1,57 +1,37 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import FormItem from '@/pages/FormEdit/components/MainFormContent/FormItem.jsx';
+import formStyle from '@/pages/FormEdit/index.module.scss';
+import styles from './index.module.scss';
+import { Button } from 'antd';
+import { useSetState } from 'ahooks';
 
 const FormView = () => {
-    const [list, setList] = useState([1, 2, 3, 4, 5, 6]); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-    const enterRef = useRef(null);
-    const onDragStart = () => {
-        console.log('拖动开始');
-    };
-    const onDragEnter = e => {
-        if (!enterRef.current) { // 拖动进入区域
-            setList([...list, 'add']);
-        }
-        enterRef.current = e.target;
-    };
-    const onDragLeave = e => {
-        if (enterRef.current === e.target) { // 拖动离开区域
-            enterRef.current = null;
-            setList(list.filter(item => item !== 'add'));
-        }
-    };
-    const onDrop = e => { // 放置到区域
-        setList(list.map(item => item === 'add' ? `add${list.length}` : item));
-        enterRef.current = null;
-    };
-    const onItemEnter = (i) => {
-        const curIndex = list.indexOf('add');
-        if (curIndex === i || curIndex === -1) {
-            return;
-        }
-        // 拖动到item
-        const newList = [...list];
-        newList.splice(i, 0, newList.splice(curIndex, 1)[0]);
-        setList(newList);
+    const [formItems, _] = useState(JSON.parse(localStorage.getItem('formItems') || '[]')); // 表单项
+    const [formData, setFormData] = useState({}); // 表单数据
+
+    const onSubmit = () => { // 提交表单
+        console.log(formData);
     };
     return (
-        <>
-            <div
-                onDragEnter={onDragEnter}
-                onDragLeave={onDragLeave}
-                onDragOver={e => e.preventDefault()}
-                onDrop={onDrop}
-                style={{ border: '1px solid #ccc', width: 300 }}
-            >
-                放置区域
+        <div className={`${formStyle.mainFormContent} ${styles.form}`}>
+            <div className={formStyle.box}>
                 {
-                    list.map((item, i) => (
-                        <div key={item} onDragEnter={() => onItemEnter(i)} style={{ border: '1px solid #ccc', margin: 10, height: 50 }}>
-                            {item}
-                        </div>
-                    ))
+                    formItems.map(({ data, attr }) =>
+                        <FormItem
+                            data={data}
+                            key={data.id}
+                            onChange={val => setFormData({ ...formData, [attr.name.value]: val })}
+                            value={formData[attr.name.value]}
+                            viewAttr={attr}
+                        />,
+                    )
                 }
             </div>
-            <div draggable="true" onDragStart={onDragStart}>拖动我</div>
-        </>
+            <div className='flexCC p-t-20'>
+                <Button className='m-r-16' onClick={() => setFormData({})}>清空表单</Button>
+                <Button onClick={onSubmit} type="primary">提交</Button>
+            </div>
+        </div>
     );
 };
 

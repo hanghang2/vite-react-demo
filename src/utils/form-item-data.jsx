@@ -107,18 +107,28 @@ export const commonAttrs = {
 // 表单项
 export const formItemData = {
     input: {
-        component: ({ attr }) => {
+        component: ({ attr, onChange, value }) => {
             const maxLength = attr?.curAttrs[0]?.value;
             return (
-                <Input maxLength={maxLength || null} placeholder="请输入" showCount={!!maxLength}/>
+                <Input
+                    maxLength={maxLength || null}
+                    onChange={e => onChange && onChange(e.target.value)}
+                    placeholder="请输入"
+                    showCount={!!maxLength}
+                    {...(onChange ? { value } : {})}
+                />
             );
         },
     },
     radio: {
-        component: ({ attr }) => {
+        component: ({ attr, onChange, value }) => {
             const options = attr?.curAttrs[0]?.value?.filter(item => item.label && item.value);
             return (
-                <Radio.Group className='m-t-5'>
+                <Radio.Group
+                    className='m-t-5'
+                    onChange={e => onChange && onChange(e.target.value)}
+                    {...(onChange ? { value } : {})}
+                >
                     {
                         options?.map(item => (
                             <Radio key={item.value} value={item.value}>{item.label}</Radio>
@@ -129,10 +139,14 @@ export const formItemData = {
         },
     },
     checkbox: {
-        component: ({ attr }) => {
+        component: ({ attr, onChange, value }) => {
             const options = attr?.curAttrs[0]?.value?.filter(item => item.label && item.value);
             return (
-                <Checkbox.Group className='m-t-5'>
+                <Checkbox.Group
+                    className='m-t-5'
+                    onChange={onChange || null}
+                    {...(onChange ? { value } : {})}
+                >
                     {
                         options?.map(item => (
                             <Checkbox key={item.value} value={item.value}>{item.label}</Checkbox>
