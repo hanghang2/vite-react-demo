@@ -53,7 +53,7 @@ const FormItem = ({ data, onDragEnter, modal, onDelte, $eventFI, setEditId, edit
      */
     const getData = () => new Promise((resolve, reject) => {
         if (!attr.name.value) {
-            reject(`请填写${index}-${data.label}字段名`);
+            reject(`请填写${index}-${attr.labelText.value}字段名`);
         }
         resolve({ data, attr });
     });

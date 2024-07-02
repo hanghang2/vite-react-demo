@@ -56,7 +56,7 @@ const MainFormContent = ({ $event, $eventFI }) => {
                 type: 'success',
                 content: '保存成功',
             });
-        }).catch(err => {
+        }).catch(err => { // 错误提示-校验不通过
             messageApi.open({
                 type: 'error',
                 content: err,
