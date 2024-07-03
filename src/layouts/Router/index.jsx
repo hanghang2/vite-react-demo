@@ -9,6 +9,7 @@ import FormEdit from '@/pages/FormEdit'; // 表单设计器
 import FormView from '@/pages/FormView'; // 表单查看
 import DragDemo from '@/pages/DragDemo'; // 拖拽示例
 import Gobang from '@/pages/Gobang'; // 五子棋
+import Mind from '@/pages/Mind'; // 心智图
 
 const Router = () => {
     return (
@@ -19,6 +20,7 @@ const Router = () => {
                 <Route element={<FormView/>} path='/FormView'/>
                 <Route element={<DragDemo/>} path='/DragDemo'/>
                 <Route element={<Gobang/>} path='/Gobang'/>
+                <Route element={<Mind/>} path='/Mind'/>
                 <Route element={<Main/>} path="/">
                     <Route element={<Page/>} path='Page'/>
                     <Route element={<Demo/>} path='Demo'/>

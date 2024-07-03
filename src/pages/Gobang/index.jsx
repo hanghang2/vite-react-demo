@@ -53,6 +53,7 @@ const Gobang = () => {
                 {
                     chess.map((item, index) => (
                         <circle
+                            className={styles.chess}
                             cx={item.x * 40 + 20}
                             cy={item.y * 40 + 20}
                             fill={item.isBlack ? 'black' : 'white'}
