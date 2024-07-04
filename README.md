@@ -1,3 +1,4 @@
+预览地址 https://hanghang2.github.io/vite-react-demo/dist/#/Mind
 
 # 项目搭建
 * 1、yarn create vite 项目名 命令创建项目；

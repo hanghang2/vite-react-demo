@@ -1,5 +1,5 @@
 import styles from './index.module.scss';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Cell from './components/Cell.jsx';
 import useMove from './hooks/useMove.jsx';
 import ContextMenu from '@/pages/Mind/components/ContextMenu.jsx';
@@ -14,11 +14,12 @@ const defaultData = [
 ];
 const Mind = () => {
     const [list, setList] = useState(defaultData); // 数据
+    const boxRef = useRef(null);
     const {
         handleMouseDown, // 鼠标按下
         handleMouseMove, // 鼠标移动
         handleMouseUp, // 鼠标抬起
-    } = useMove({ list, setList });
+    } = useMove({ list, setList, boxRef });
 
     // 右键菜单
     const [menu, setMenu] = useState({});
@@ -41,7 +42,7 @@ const Mind = () => {
         };
     }, [list]);
     return (
-        <div className={styles.box} onMouseMove={handleMouseMove}>
+        <div className={styles.box} onMouseMove={handleMouseMove} ref={boxRef}>
             {
                 menu.show ? (
                     <ContextMenu

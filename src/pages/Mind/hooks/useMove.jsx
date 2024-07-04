@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 
-const { w, h } = { w: 100, h: 50 };
-const useMove = ({ list, setList }) => {
+const useMove = ({ list, setList, boxRef }) => {
     const mouseDownData = useRef({
         isDown: false, // 鼠标是否按下
         i: -1, // 当前按下的元素索引
@@ -17,8 +16,8 @@ const useMove = ({ list, setList }) => {
             if (i === mouseDownData.current.i) {
                 return {
                     ...item,
-                    x: e.clientX - item.w / 2,
-                    y: e.clientY - item.h / 2,
+                    x: e.clientX - item.w / 2 + boxRef.current?.scrollLeft,
+                    y: e.clientY - item.h / 2 + boxRef.current?.scrollTop,
                 };
             }
             return item;
