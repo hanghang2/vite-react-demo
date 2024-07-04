@@ -1,5 +1,5 @@
 import styles from './index.module.scss';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Cell from './components/Cell.jsx';
 import useMove from './hooks/useMove.jsx';
 import ContextMenu from '@/pages/Mind/components/ContextMenu.jsx';
@@ -33,6 +33,13 @@ const Mind = () => {
             },
         });
     };
+    // 计算svg宽高
+    const svgWH = useMemo(() => {
+        return {
+            width: (Math.max(...list.map(item => item.x + item.w)) || 0) + 20,
+            height: (Math.max(...list.map(item => item.y + item.h)) || 0) + 20,
+        };
+    }, [list]);
     return (
         <div className={styles.box} onMouseMove={handleMouseMove}>
             {
@@ -45,7 +52,7 @@ const Mind = () => {
                     />
                 ) : null
             }
-            <svg className={styles.svg}>
+            <svg className={styles.svg} style={svgWH}>
                 {
                     list.map((item, i) => (
                         <Cell
