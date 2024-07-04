@@ -11,7 +11,7 @@ const useSize = (dom) => {
         const rsObserver = new ResizeObserver(entries => {
             for (const entry of entries) {
                 const target = entry.target;
-                setSize({ width: target.clientWidth, height: target.clientHeight });
+                setSize({ width: target.offsetWidth, height: target.offsetHeight });
             }
         });
         rsObserver.observe(dom); // 添加监听
