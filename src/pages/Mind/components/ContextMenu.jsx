@@ -57,7 +57,7 @@ const ContextMenu = ({ list, setList, menu, setMenu }) => {
                 </Button>
             </div>
             {
-                list.length === 1 ? null : (
+                (list.filter(n => !n.pid).length === 1 && !list[menu.i].pid) ? null : (
                     <div className={styles.menu}>
                         <Button onClick={onDelete} type="link">
                             删除节点
