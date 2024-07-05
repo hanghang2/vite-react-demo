@@ -37,8 +37,8 @@ const Mind = () => {
     // 计算svg宽高
     const svgWH = useMemo(() => {
         return {
-            width: (Math.max(...list.map(item => item.x + item.w)) || 0) + 20,
-            height: (Math.max(...list.map(item => item.y + item.h)) || 0) + 20,
+            width: (Math.max(...list.map(item => item.x + item.w)) || 0) + 100,
+            height: (Math.max(...list.map(item => item.y + item.h)) || 0) + 100,
         };
     }, [list]);
     return (

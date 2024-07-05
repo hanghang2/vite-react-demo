@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { isCollision } from '@/utils/calc-position.js';
 
 const useMove = ({ list, setList, boxRef }) => {
     const mouseDownData = useRef({
@@ -7,7 +8,7 @@ const useMove = ({ list, setList, boxRef }) => {
     });
     // 鼠标按下
     const handleMouseDown = (e, i) => {
-        e.button === 0 && (mouseDownData.current = { isDown: true, i });
+        e.button === 0 && (mouseDownData.current = { isDown: true, i, x: list[i].x, y: list[i].y });
     };
     // 鼠标移动
     const handleMouseMove = (e) => {
@@ -24,7 +25,23 @@ const useMove = ({ list, setList, boxRef }) => {
         }));
     };
     // 鼠标抬起
-    const handleMouseUp = () => {
+    const handleMouseUp = (e) => {
+        if (e.button !== 0) {
+            return;
+        }
+        // 碰撞检测
+        if (isCollision(list[mouseDownData.current.i], list)) { // 有碰撞恢复原位
+            setList(list.map((item, i) => {
+                if (i === mouseDownData.current.i) {
+                    return {
+                        ...item,
+                        x: mouseDownData.current.x,
+                        y: mouseDownData.current.y,
+                    };
+                }
+                return item;
+            }));
+        }
         mouseDownData.current = { isDown: false, i: -1 };
     };
     return {
