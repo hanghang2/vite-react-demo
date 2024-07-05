@@ -3,6 +3,7 @@ import Line from './Line.jsx';
 import useSize from '@/hooks/useSize.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { useClickAway } from 'ahooks';
+import { EditOutlined } from '@ant-design/icons';
 
 const Cell = ({
     x, // x坐标
@@ -20,7 +21,8 @@ const Cell = ({
     const { width, height } = useSize(textRef);
     const [isEdit, setIsEdit] = useState(false);
     // 编辑文本
-    const editText = () => {
+    const editText = (e) => {
+        e.stopPropagation();
         setIsEdit(true);
         textRef.current.focus();
         textRef.current.selectionEnd = t.length;
@@ -67,10 +69,10 @@ const Cell = ({
                     />
                 ) : null
             }
+            {/* onDoubleClick={() => editText(i)}*/}
             <foreignObject
                 height={height}
                 onContextMenu={e => handleContextMenu(e, i)}
-                onDoubleClick={() => editText(i)}
                 onMouseDown={e => !isEdit && handleMouseDown(e, i)}
                 onMouseMove={e => e.preventDefault()}
                 onMouseUp={handleMouseUp}
@@ -78,14 +80,19 @@ const Cell = ({
                 x={x}
                 y={y}
             >
-                <div
-                    className={`${styles.text} ${!pid ? styles.isTop : ''} ${isEdit ? styles.edit : ''}`}
-                    contentEditable='plaintext-only'
-                    dangerouslySetInnerHTML={{ __html: t }}
-                    onBlur={handleChange}
-                    ref={textRef}
-                    style={{ pointerEvents: isEdit ? 'auto' : 'none' }}
-                >
+                <div className={styles.cellBox}>
+                    <div
+                        className={`${styles.text} ${!pid ? styles.isTop : ''} ${isEdit ? styles.edit : ''}`}
+                        contentEditable='plaintext-only'
+                        dangerouslySetInnerHTML={{ __html: t }}
+                        onBlur={handleChange}
+                        ref={textRef}
+                        style={{ pointerEvents: isEdit ? 'auto' : 'none' }}
+                    >
+                    </div>
+                    {
+                        isEdit ? null : <EditOutlined className={styles.editIcon} onMouseDown={e => editText(e, i)}/>
+                    }
                 </div>
             </foreignObject>
         </>

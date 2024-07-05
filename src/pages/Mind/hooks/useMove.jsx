@@ -26,7 +26,7 @@ const useMove = ({ list, setList, boxRef }) => {
     };
     // 鼠标抬起
     const handleMouseUp = (e) => {
-        if (e.button !== 0) {
+        if (e.button !== 0 || !list[mouseDownData.current.i]) {
             return;
         }
         // 碰撞检测

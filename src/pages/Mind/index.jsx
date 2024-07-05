@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from 'react';
 import Cell from './components/Cell.jsx';
 import useMove from './hooks/useMove.jsx';
 import ContextMenu from '@/pages/Mind/components/ContextMenu.jsx';
+import { useLocalStorageState } from 'ahooks';
 
 const defaultData = [
     {
@@ -13,7 +14,9 @@ const defaultData = [
     },
 ];
 const Mind = () => {
-    const [list, setList] = useState(defaultData); // 数据
+    const [list, setList] = useLocalStorageState('mind-data', {
+        defaultValue: defaultData,
+    }); // 数据
     const boxRef = useRef(null);
     const {
         handleMouseDown, // 鼠标按下

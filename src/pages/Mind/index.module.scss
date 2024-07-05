@@ -28,6 +28,24 @@
                 border: 2px solid red;
             }
         }
+        .cellBox{
+            position: relative;
+            .editIcon{
+                position: absolute;
+                z-index: 9;
+                top: 0;
+                right: 0;
+                cursor: pointer;
+                display: none;
+                color: #fff;
+                background: #00ff33;
+                border-radius: 50%;
+                padding: 2px;
+            }
+            &:hover .editIcon{
+                display: inline-flex;
+            }
+        }
     }
     .menus{
         text-align: center;
